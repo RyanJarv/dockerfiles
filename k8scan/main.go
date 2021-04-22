@@ -30,7 +30,7 @@ const (
 
 	arinAPIEndpoint = "http://whois.arin.net/rest/ip/%s"
 
-	emailSender = "k8scan@jessfraz.com"
+	emailSender = "k8scan@ryanjarv.com"
 )
 
 var (

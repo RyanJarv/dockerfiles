@@ -35,7 +35,7 @@ RUN mkdir -p $HOME/.mutt/cache/headers $HOME/.mutt/cache/bodies \
 	&& touch $HOME/.mutt/certificates
 
 # vim settings
-RUN git clone --depth 1 https://github.com/jessfraz/.vim.git $HOME/.vim \
+RUN git clone --depth 1 https://github.com/ryanjarv/.vim.git $HOME/.vim \
 	&& git clone --depth 1 https://github.com/altercation/vim-colors-solarized $HOME/.vim/bundle/vim-colors-solarized \
 	&& cp $HOME/.vim/vimrc $HOME/.vimrc
 

@@ -1,4 +1,4 @@
-FROM r.j3ss.co/wireguard:install
+FROM ryanjarv/wireguard:install
 LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 RUN apt update && apt -y install \

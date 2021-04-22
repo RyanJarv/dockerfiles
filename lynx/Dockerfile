@@ -2,7 +2,7 @@
 #
 # docker run --rm -it \
 #	--name lynx \
-#	jess/lynx github.com/jessfraz
+#	jess/lynx github.com/ryanjarv
 #
 FROM debian:bullseye-slim
 LABEL maintainer "Jessie Frazelle <jess@linux.com>"

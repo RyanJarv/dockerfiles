@@ -1,4 +1,4 @@
-FROM r.j3ss.co/powershell:latest
+FROM ryanjarv/powershell:latest
 
 # Install/Update PowerShellGet
 RUN pwsh -c "Install-Module PowerShellGet -Force"

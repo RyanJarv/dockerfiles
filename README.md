@@ -1,6 +1,6 @@
 ## dockerfiles
 
-[![make test](https://github.com/jessfraz/dockerfiles/workflows/make%20test/badge.svg)](https://github.com/jessfraz/dockerfiles/actions?query=workflow%3A%22make+test%22+branch%3Amaster)
+[![make test](https://github.com/ryanjarv/dockerfiles/workflows/make%20test/badge.svg)](https://github.com/ryanjarv/dockerfiles/actions?query=workflow%3A%22make+test%22+branch%3Amaster)
 
 This is a repo to hold various Dockerfiles for images I create.
 
@@ -21,14 +21,14 @@ This is a repo to hold various Dockerfiles for images I create.
 
 Almost all of these live on dockerhub under [jess](https://hub.docker.com/u/jess/).
 Because you cannot use notary with autobuilds on dockerhub I also build these
-continuously on a private registry at [r.j3ss.co](https://r.j3ss.co/) for public download. (You're
+continuously on a private registry at [ryanjarv](https://r.j3ss.co/) for public download. (You're
 welcome.)
 
 ## Resources
 
 ### My dotfiles
 
-You may also want to checkout my [dotfiles](https://github.com/jessfraz/dotfiles), specifically the aliases for all these files which are here: [github.com/jessfraz/dotfiles/blob/master/.dockerfunc](https://github.com/jessfraz/dotfiles/blob/master/.dockerfunc).
+You may also want to checkout my [dotfiles](https://github.com/ryanjarv/dotfiles), specifically the aliases for all these files which are here: [github.com/ryanjarv/dotfiles/blob/master/.dockerfunc](https://github.com/ryanjarv/dotfiles/blob/master/.dockerfunc).
 
 ## Contributing
 

@@ -19,7 +19,7 @@ run: ## Run a Dockerfile from the command at the top of the file (ex. DIR=telnet
 	@:$(call check_defined, DIR, directory of the Dockefile)
 	@$(CURDIR)/run.sh "$(DIR)"
 
-REGISTRY := r.j3ss.co
+REGISTRY := ryanjarv
 .PHONY: image
 image: ## Build a Dockerfile (ex. DIR=telnet).
 	@:$(call check_defined, DIR, directory of the Dockefile)
@@ -46,7 +46,7 @@ shellcheck: ## Runs the shellcheck tests on the scripts.
 		--name df-shellcheck \
 		-v $(CURDIR):/usr/src:ro \
 		--workdir /usr/src \
-		r.j3ss.co/shellcheck ./shellcheck.sh
+		ryanjarv/shellcheck ./shellcheck.sh
 
 .PHONY: help
 help:

@@ -6,7 +6,7 @@
 #	Tested on Debian Jessie
 # USAGE:
 #	# Download transmission Dockerfile
-#	wget https://raw.githubusercontent.com/jessfraz/dockerfiles/master/transmission/Dockerfile
+#	wget https://raw.githubusercontent.com/ryanjarv/dockerfiles/master/transmission/Dockerfile
 #
 #	# Build transmission image
 #	docker build -t jess/transmission .
@@ -22,7 +22,7 @@ FROM alpine:latest
 LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 # machine parsable metadata, for https://github.com/pycampers/dockapt
-LABEL "registry_image"="r.j3ss.co/transmission"
+LABEL "registry_image"="ryanjarv/transmission"
 LABEL "docker_run_flags"="-d --name transmission \
 		-v ~/Downloads:/transmission/download \
 		-p 9091:9091 -p 51413:51413 -p 51413:51413/udp"

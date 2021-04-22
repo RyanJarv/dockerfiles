@@ -6,7 +6,7 @@
 #	Tested on Debian Jessie
 # USAGE:
 #	# Download tetris Dockerfile
-#	wget https://raw.githubusercontent.com/jessfraz/dockerfiles/master/tetris/Dockerfile
+#	wget https://raw.githubusercontent.com/ryanjarv/dockerfiles/master/tetris/Dockerfile
 #
 #	# Build tetris image
 #	docker build -t tetris .

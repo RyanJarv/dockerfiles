@@ -4,7 +4,7 @@
 #	-v /lib/modules:/lib/modules:ro \
 #	-v /usr/src:/usr/src:ro \
 #	-v /etc/localtime:/etc/localtime:ro \
-#	r.j3ss.co/bcc-tools
+#	ryanjarv/bcc-tools
 #
 FROM debian:sid-slim
 MAINTAINER Jessica Frazelle <jess@linux.com>

@@ -6,7 +6,7 @@
 #	Tested on Debian Jessie
 # USAGE:
 #	# Download doctor Dockerfile
-#	wget https://raw.githubusercontent.com/jessfraz/dockerfiles/master/doctor/Dockerfile
+#	wget https://raw.githubusercontent.com/ryanjarv/dockerfiles/master/doctor/Dockerfile
 #
 #	# Build doctor image
 #	docker build -t doctor .

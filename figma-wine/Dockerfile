@@ -9,7 +9,7 @@
 #	--name figma-wine \
 #	jess/figma-wine bash
 #
-FROM r.j3ss.co/wine
+FROM ryanjarv/wine
 LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 ENV HOME /home/user

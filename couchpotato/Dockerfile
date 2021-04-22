@@ -13,7 +13,7 @@ FROM python:2-alpine
 LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 # machine parsable metadata, for https://github.com/pycampers/dockapt
-LABEL "registry_image"="r.j3ss.co/couchpotato"
+LABEL "registry_image"="ryanjarv/couchpotato"
 LABEL "docker_run_flags"="-d \
  	--restart always \
 	-p 5050:5050 \

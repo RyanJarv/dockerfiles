@@ -5,7 +5,7 @@
 # 	docker run --rm -it \
 # 		-v ${HOME}/.gitsomeconfig:/home/anon/.gitsomeconfig \
 # 		-v ${HOME}/.gitsomeconfigurl:/home/anon/.gitsomeconfigurl \
-#		r.j3ss.co/gitsome
+#		ryanjarv/gitsome
 #
 FROM python:3.5-alpine
 

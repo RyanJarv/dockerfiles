@@ -2,7 +2,7 @@
 #
 # docker run --rm -it \
 # 	-v ${PWD}:/tmp \
-# 	r.j3ss.co/guetzli:latest \
+# 	ryanjarv/guetzli:latest \
 # 	--verbose /tmp/example.jpg /tmp/example.compressed.jpg
 
 FROM alpine:latest

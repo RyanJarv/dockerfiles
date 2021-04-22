@@ -8,7 +8,7 @@ How to use:
         $ docker run --rm -it \
             -v $(pwd):/workdir \
             --workdir /workdir \
-            r.j3ss.co/fontpatcher myfontfile.otf
+            ryanjarv/fontpatcher myfontfile.otf
 
 3. You should have a `myfontfile-Powerline.otf` as an artifact.
 4. Copy the font file into ``~/.fonts`` (or another X font directory)::

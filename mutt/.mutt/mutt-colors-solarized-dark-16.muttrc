@@ -7,10 +7,10 @@
 
 # custom body highlights -----------------------------------------------
 # highlight my name and other personally relevant strings
-color body          yellow          default         "(jessie|jessica|frazelle|jfrazelle|jessfraz|jess)"
+color body          yellow          default         "(jessie|jessica|frazelle|jfrazelle|ryanjarv|jess)"
 # custom index highlights ----------------------------------------------
 # messages which mention my name in the body
-color index         yellow          default         "~b \"jessie|jessfraz|jfrazelle\" !~N !~T !~F !~p !~P"
+color index         yellow          default         "~b \"jessie|ryanjarv|jfrazelle\" !~N !~T !~F !~p !~P"
 #color index         J_cream         brightwhite     "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~N !~T !~F !~p !~P"
 #color index         yellow          cyan            "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~T !~F !~p !~P"
 #color index         yellow          J_magent        "~b \"phil(_g|\!| gregory| gold)|pgregory\" ~F !~p !~P"

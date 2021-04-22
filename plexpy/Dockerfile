@@ -4,7 +4,7 @@
 #  --name=PlexPy \
 #  -v <path to local plexpy data>:/data \
 #  -p 8181:8181 \
-#  r.j3ss.co/plexpy
+#  ryanjarv/plexpy
 FROM alpine:latest
 
 # Install required packages.

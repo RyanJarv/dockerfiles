@@ -1,4 +1,4 @@
-FROM r.j3ss.co/bcc
+FROM ryanjarv/bcc
 MAINTAINER Jessica Frazelle <jess@linux.com>
 
 ENV PATH /usr/share/bcc/tools:$PATH

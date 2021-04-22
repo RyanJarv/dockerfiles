@@ -1,4 +1,4 @@
-FROM r.j3ss.co/curl
+FROM ryanjarv/curl
 LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 RUN apk add --no-cache \

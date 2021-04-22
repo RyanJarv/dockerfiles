@@ -9,7 +9,7 @@
 #	--name spotify-wine \
 #	jess/spotify-wine bash
 #
-FROM r.j3ss.co/wine
+FROM ryanjarv/wine
 LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
 ADD https://download.scdn.co/SpotifySetup.exe /usr/src/SpotifySetup.exe
