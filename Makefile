@@ -9,3 +9,6 @@ push:
 	docker push ryanjarv/claude-flow
 	docker push ryanjarv/codex
 	docker push ryanjarv/gemini
+
+install:
+	./install.sh
