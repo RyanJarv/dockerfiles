@@ -1,0 +1,59 @@
+# LLM Container Functions
+
+claude() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "$root:$root" -w "$PWD" \
+        -v "$HOME/.claude:/root/.claude" \
+        -v "$HOME/.claude.json:/root/.claude.json" \
+        -v "$HOME/.claude.json.backup:/root/.claude.json.backup" \
+        -v "$HOME/.claude-flow:/root/.claude-flow" \
+        "ryanjarv/claude" \
+        "$@"
+}
+
+claude-flow() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "$root:$root" -w "$PWD" \
+        -v "$HOME/.claude:/root/.claude" \
+        -v "$HOME/.claude.json:/root/.claude.json" \
+        -v "$HOME/.claude.json.backup:/root/.claude.json.backup" \
+        -v "$HOME/.claude-flow:/root/.claude-flow" \
+        "ryanjarv/claude-flow" \
+        "$@"
+}
+
+codex() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "$root:$root" -w "$PWD" \
+        -v "$HOME/.codex:/root/.codex" \
+        "ryanjarv/codex" \
+        "$@"
+}
+
+gemini() {
+    local service=$1
+    shift
+    
+    docker run --rm -it \
+        -v "$PWD:$PWD" -w "$PWD" \
+        "ryanjarv/gemini" \
+        "$@"
+}
