@@ -19,4 +19,4 @@ WORKDIR /workspace
 RUN npm install -g @anthropic-ai/claude-code
 RUN npm install -g claude-flow@alpha
 
-ENTRYPOINT ["/usr/local/bin/claude"]
+ENTRYPOINT ["/usr/bin/claude"]

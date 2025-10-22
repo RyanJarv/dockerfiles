@@ -8,12 +8,14 @@ claude() {
 	fi
 
     docker run --rm -it \
+	-e "IS_SANDBOX=1" \
         -v "$root:$root" -w "$PWD" \
         -v "$HOME/.claude:/root/.claude" \
         -v "$HOME/.claude.json:/root/.claude.json" \
         -v "$HOME/.claude.json.backup:/root/.claude.json.backup" \
         -v "$HOME/.claude-flow:/root/.claude-flow" \
         "ryanjarv/claude" \
+	"--dangerously-skip-permissions" \
         "$@"
 }
 
@@ -25,6 +27,7 @@ claude-flow() {
 	fi
 
     docker run --rm -it \
+	-e "IS_SANDBOX=1" \
         -v "$root:$root" -w "$PWD" \
         -v "$HOME/.claude:/root/.claude" \
         -v "$HOME/.claude.json:/root/.claude.json" \
