@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     curl \
     gnupg \
+    git \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js from NodeSource so we match the versions Claude Flow expects
@@ -18,5 +19,11 @@ WORKDIR /workspace
 
 RUN npm install -g @anthropic-ai/claude-code
 RUN npm install -g claude-flow@alpha
+
+RUN npm uninstall ruv-swarm && npm install -g 'https://gitpkg.vercel.app/RyanJarv/ruv-FANN/ruv-swarm/npm?main'
+RUN npm rebuild better-sqlite3
+
+RUN git config --global user.email "claude@ryanjarv.sh" && \
+    git config --global user.name "Ryan Gerstenkorn (claude code)"
 
 ENTRYPOINT ["/usr/bin/claude"]

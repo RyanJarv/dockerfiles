@@ -8,15 +8,52 @@ claude() {
 	fi
 
     docker run --rm -it \
-	-e "IS_SANDBOX=1" \
+        -e "IS_SANDBOX=1" \
+        -p "localhost:3000:3000" \
         -v "$root:$root" -w "$PWD" \
         -v "$HOME/.claude:/root/.claude" \
         -v "$HOME/.claude.json:/root/.claude.json" \
         -v "$HOME/.claude.json.backup:/root/.claude.json.backup" \
         -v "$HOME/.claude-flow:/root/.claude-flow" \
         "ryanjarv/claude" \
-	"--dangerously-skip-permissions" \
+        "--dangerously-skip-permissions" \
         "$@"
+}
+
+claude.shell() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -e "IS_SANDBOX=1" \
+        -v "$root:$root" -w "$PWD" \
+        -v "$HOME/.claude:/root/.claude" \
+        -v "$HOME/.claude.json:/root/.claude.json" \
+        -v "$HOME/.claude.json.backup:/root/.claude.json.backup" \
+        -v "$HOME/.claude-flow:/root/.claude-flow" \
+        --entrypoint bash \
+        "ryanjarv/claude"
+}
+
+ruv-swarm() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -e "IS_SANDBOX=1" \
+        -v "$root:$root" -w "$PWD" \
+        -v "$HOME/.claude:/root/.claude" \
+        -v "$HOME/.claude.json:/root/.claude.json" \
+        -v "$HOME/.claude.json.backup:/root/.claude.json.backup" \
+        -v "$HOME/.claude-flow:/root/.claude-flow" \
+        --entrypoint "/usr/bin/ruv-swarm" \
+        "ryanjarv/claude" "$@"
 }
 
 claude-flow() {
@@ -27,13 +64,15 @@ claude-flow() {
 	fi
 
     docker run --rm -it \
-	-e "IS_SANDBOX=1" \
+        -e "IS_SANDBOX=1" \
+        -p "127.0.0.1:8284:8284" \
         -v "$root:$root" -w "$PWD" \
         -v "$HOME/.claude:/root/.claude" \
         -v "$HOME/.claude.json:/root/.claude.json" \
         -v "$HOME/.claude.json.backup:/root/.claude.json.backup" \
         -v "$HOME/.claude-flow:/root/.claude-flow" \
-        "ryanjarv/claude-flow" \
+        --entrypoint "/usr/bin/claude-flow" \
+        "ryanjarv/claude" \
         "$@"
 }
 

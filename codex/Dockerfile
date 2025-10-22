@@ -1,8 +1,12 @@
-FROM alpine:3.19
+FROM alpine:latest
 
 RUN apk add --no-cache \
     nodejs \
-    npm
+    npm \
+    git
+
+RUN git config --global user.email "codex@ryanjarv.sh" && \
+    git config --global user.name "Ryan Gerstenkorn (codex)"
 
 WORKDIR /workspace
 
