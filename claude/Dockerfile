@@ -1,29 +1,28 @@
-FROM ubuntu:24.04
+# syntax=docker/dockerfile:1.7-labs
 
-ENV DEBIAN_FRONTEND=noninteractive
+FROM ryanjarv/ubuntu:latest
 
-RUN apt-get update && apt-get install -y \
-    ca-certificates \
-    curl \
-    gnupg \
-    git \
- && rm -rf /var/lib/apt/lists/*
+# Install additional build dependencies for better-sqlite3
+RUN --mount=type=cache,target=/var/cache/apt,id=claude-apt-cache,sharing=locked apt-get update && \
+    apt-get install -y python3-dev
 
-# Install Node.js from NodeSource so we match the versions Claude Flow expects
-RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource.gpg \
- && echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" > /etc/apt/sources.list.d/nodesource.list \
- && apt-get update && apt-get install -y nodejs \
- && rm -rf /var/lib/apt/lists/*
+RUN npm install -g '@anthropic-ai/claude-code'
+RUN npm install -g 'claude-flow@alpha'
 
-WORKDIR /workspace
+RUN npm uninstall -g ruv-swarm idealTree && \
+    npm install -g 'https://gitpkg.vercel.app/RyanJarv/ruv-FANN/ruv-swarm/npm?main' && \
+    PYTHON=/usr/local/bin/python3.11 npm rebuild better-sqlite3 && npm rebuild ruv-swarm
 
-RUN npm install -g @anthropic-ai/claude-code
-RUN npm install -g claude-flow@alpha
+# Pre-install better-sqlite3 in npx cache to ensure native bindings are built
+RUN npx --yes better-sqlite3@latest --help 2>/dev/null || true && \
+    find /root/.npm/_npx -name 'better-sqlite3' -type d -exec sh -c 'cd {} && PYTHON=/usr/local/bin/python3.11 npm rebuild better-sqlite3 2>/dev/null || true' \;
 
-RUN npm uninstall ruv-swarm && npm install -g 'https://gitpkg.vercel.app/RyanJarv/ruv-FANN/ruv-swarm/npm?main'
-RUN npm rebuild better-sqlite3
+RUN ln -f -s /root/.nvm/versions/node/v25.0.0/bin/* /usr/local/bin/
+
+COPY claude-entrypoint.sh /usr/local/bin/claude-entrypoint.sh
+RUN chmod 0755 /usr/local/bin/claude-entrypoint.sh
 
 RUN git config --global user.email "claude@ryanjarv.sh" && \
     git config --global user.name "Ryan Gerstenkorn (claude code)"
 
-ENTRYPOINT ["/usr/bin/claude"]
+ENTRYPOINT ["/usr/local/bin/claude-entrypoint.sh"]

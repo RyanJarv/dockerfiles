@@ -1,5 +1,108 @@
 # LLM Container Functions
 
+venv() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "/tmp:/tmp" \
+        -v "$root:$root" -w "$PWD" \
+        -v "$HOME/.cache.docker/uv/:/root/.cache/uv/" \
+        -v "$HOME/.cache.docker/pip/:/root/.cache/pip/" \
+        "ryanjarv/ubuntu-base" "$@"
+}
+
+
+uv() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "$HOME/.cache.docker/uv/:/root/.cache/uv/" \
+        -v "$HOME/.cache.docker/pip/:/root/.cache/pip/" \
+        -v "/tmp:/tmp" \
+        -v "$root:$root" -w "$PWD" \
+        --entrypoint='/usr/local/bin/uv' \
+        "ryanjarv/ubuntu-base" "$@"
+}
+
+uv() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "$HOME/.cache.docker:/root/.cache" \
+        -v "/tmp:/tmp" \
+        -v "$root:$root" -w "$PWD" \
+        --entrypoint /usr/local/bin/uv \
+        "ryanjarv/ubuntu-base" "$@"
+}
+
+python3() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "/tmp:/tmp" \
+        -v "$root:$root" -w "$PWD" \
+        --entrypoint /usr/local/bin/python3 \
+        "ryanjarv/ubuntu-base" "$@"
+}
+
+node() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "/tmp:/tmp" \
+        -v "$root:$root" -w "$PWD" \
+        --entrypoint node \
+        "ryanjarv/ubuntu-base" "$@"
+}
+
+npm() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "/tmp:/tmp" \
+        -v "$root:$root" -w "$PWD" \
+        --entrypoint npm \
+        "ryanjarv/ubuntu-base" "$@"
+}
+
+curl() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "/tmp:/tmp" \
+        -v "$root:$root" -w "$PWD" \
+        --entrypoint curl \
+        "ryanjarv/ubuntu-base" "$@"
+}
+
 claude() {
 	root="$(git rev-parse --show-toplevel)" 	
 	if [[ -z "$root" ]]; then
@@ -9,7 +112,7 @@ claude() {
 
     docker run --rm -it \
         -e "IS_SANDBOX=1" \
-        -p "localhost:3000:3000" \
+        -v "/tmp:/tmp" \
         -v "$root:$root" -w "$PWD" \
         -v "$HOME/.claude:/root/.claude" \
         -v "$HOME/.claude.json:/root/.claude.json" \
@@ -29,6 +132,7 @@ claude.shell() {
 
     docker run --rm -it \
         -e "IS_SANDBOX=1" \
+        -v "/tmp:/tmp" \
         -v "$root:$root" -w "$PWD" \
         -v "$HOME/.claude:/root/.claude" \
         -v "$HOME/.claude.json:/root/.claude.json" \
@@ -47,6 +151,7 @@ ruv-swarm() {
 
     docker run --rm -it \
         -e "IS_SANDBOX=1" \
+        -v "/tmp:/tmp" \
         -v "$root:$root" -w "$PWD" \
         -v "$HOME/.claude:/root/.claude" \
         -v "$HOME/.claude.json:/root/.claude.json" \
@@ -66,6 +171,7 @@ claude-flow() {
     docker run --rm -it \
         -e "IS_SANDBOX=1" \
         -p "127.0.0.1:8284:8284" \
+        -v "/tmp:/tmp" \
         -v "$root:$root" -w "$PWD" \
         -v "$HOME/.claude:/root/.claude" \
         -v "$HOME/.claude.json:/root/.claude.json" \
@@ -84,10 +190,27 @@ codex() {
 	fi
 
     docker run --rm -it \
+        -v "/tmp:/tmp" \
         -v "$root:$root" -w "$PWD" \
         -v "$HOME/.codex:/root/.codex" \
         "ryanjarv/codex" \
+        --dangerously-bypass-approvals-and-sandbox \
         "$@"
+}
+
+codex.shell() {
+	root="$(git rev-parse --show-toplevel)" 	
+	if [[ -z "$root" ]]; then
+		echo "${PWD} is not a git directory"
+		return 2
+	fi
+
+    docker run --rm -it \
+        -v "/tmp:/tmp" \
+        -v "$root:$root" -w "$PWD" \
+        -v "$HOME/.codex:/root/.codex" \
+        --entrypoint sh \
+        "ryanjarv/codex"
 }
 
 gemini() {
@@ -95,6 +218,7 @@ gemini() {
     shift
     
     docker run --rm -it \
+        -v "/tmp:/tmp" \
         -v "$PWD:$PWD" -w "$PWD" \
         "ryanjarv/gemini" \
         "$@"
