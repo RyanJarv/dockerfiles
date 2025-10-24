@@ -170,14 +170,13 @@ claude-flow() {
 
     docker run --rm -it \
         -e "IS_SANDBOX=1" \
-        -p "127.0.0.1:8284:8284" \
         -v "/tmp:/tmp" \
         -v "$root:$root" -w "$PWD" \
         -v "$HOME/.claude:/root/.claude" \
         -v "$HOME/.claude.json:/root/.claude.json" \
         -v "$HOME/.claude.json.backup:/root/.claude.json.backup" \
         -v "$HOME/.claude-flow:/root/.claude-flow" \
-        --entrypoint "/usr/bin/claude-flow" \
+        --entrypoint "/usr/local/bin/claude-flow" \
         "ryanjarv/claude" \
         "$@"
 }
