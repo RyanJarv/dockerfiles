@@ -14,8 +14,8 @@ RUN npm uninstall -g ruv-swarm idealTree && \
     PYTHON=/usr/local/bin/python3.11 npm rebuild better-sqlite3 && npm rebuild ruv-swarm
 
 # Pre-install better-sqlite3 in npx cache to ensure native bindings are built
-RUN npx --yes better-sqlite3@latest --help 2>/dev/null || true && \
-    find /root/.npm/_npx -name 'better-sqlite3' -type d -exec sh -c 'cd {} && PYTHON=/usr/local/bin/python3.11 npm rebuild better-sqlite3 2>/dev/null || true' \;
+RUN (npx --yes better-sqlite3@latest --help 2>/dev/null || true) && \
+    (find /root/.npm/_npx -name 'better-sqlite3' -type d -exec sh -c 'cd {} && PYTHON=/usr/local/bin/python3.11 npm rebuild better-sqlite3 2>/dev/null || true' \; || true)
 
 RUN ln -f -s /root/.nvm/versions/node/v25.0.0/bin/* /usr/local/bin/
 
