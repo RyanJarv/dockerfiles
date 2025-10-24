@@ -22,9 +22,48 @@ Cannot find module '..../better_sqlite3.node'
 
 ## Testing Strategy
 
+### Simplest Test - ruv-swarm (RECOMMENDED)
+
+The easiest way to test is to simply run `ruv-swarm`, which depends on better-sqlite3:
+
+```bash
+./claude/test-ruv-swarm.sh
+```
+
+Or manually using the shell function:
+
+```bash
+source sh_functions
+ruv-swarm --help
+```
+
+If you see "Cannot find module" errors for better_sqlite3.node, the issue exists.
+
 ### Quick Test (Reproduces the Issue)
 
-Run the quick test to see if the issue exists:
+**Option 1: Using the test wrapper**
+
+```bash
+./claude/run-test.sh
+```
+
+This runs the test inside the container using the in-container test script.
+
+**Option 2: Manual shell access**
+
+```bash
+# Source the shell functions
+source sh_functions
+
+# Start a shell in the container
+claude.shell
+
+# Inside the container, run:
+cd /test-scripts
+./test-in-container.sh
+```
+
+**Option 3: Direct docker (if docker is available)**
 
 ```bash
 ./claude/quick-test.sh
