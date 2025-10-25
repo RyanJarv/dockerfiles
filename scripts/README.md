@@ -121,27 +121,27 @@ chmod +x scripts/aliases.sh
 ### Missing Dependencies
 
 Ensure these are installed:
-- Node.js v22.x (pinned in Docker image for native module compatibility)
+- Node.js v25.0.0 (installed in Docker image for native module compatibility)
 - npm
 - Claude desktop application
 - jq (optional, for JSON processing)
-- claude-flow@2.7.14 (globally installed in Docker image)
+- claude-flow@2.7.4 (globally installed in Docker image)
 
 ```bash
 # Check versions
-node --version  # Should show v22.x.x
+node --version  # Should show v25.0.0
 npm --version
 which claude
-which claude-flow  # Should show global binary path
-claude-flow --version  # Should show 2.7.14
+which claude-flow  # Should show /usr/local/bin/claude-flow
+claude-flow --version  # Should show v2.7.4
 ```
 
 ### MCP Binaries on the Host (Claude Desktop)
 
 If you add MCP servers directly to Claude Desktop on your host, the configured commands must exist on your host PATH (they do not run inside our Docker container):
-- Install globally: `npm i -g claude-flow@2.7.14 ruv-swarm`.
+- Install globally: `npm i -g claude-flow@2.7.4 ruv-swarm`.
 - Or keep `ruv-swarm` via npx in your Claude Desktop config: `npx ruv-swarm mcp start`.
-  - Our init script writes `ruv-swarm mcp start`. If you don’t have a global install, change it to the npx form.
+  - Our init script writes `ruv-swarm mcp start`. If you don't have a global install, change it to the npx form.
 
 ## File Structure
 

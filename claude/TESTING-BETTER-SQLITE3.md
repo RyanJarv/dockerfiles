@@ -12,7 +12,7 @@ Cannot find module '..../better_sqlite3.node'
 
 1. **NPX Cache**: When using `npx`, modules are cached in `~/.npm/_npx/`. If better-sqlite3 is installed without proper build tools or the wrong Node version, the native bindings won't work.
 
-2. **Node ABI Version Mismatch**: Native modules are tied to Node's ABI (Application Binary Interface) version. Node v25.0.0 requires specific bindings.
+2. **Node ABI Version Mismatch**: Native modules are tied to Node's ABI (Application Binary Interface) version. We pin the container to Node v22.x so the bundled bindings stay compatible.
 
 3. **Build Requirements**: better-sqlite3 needs:
    - C++ compiler (g++)

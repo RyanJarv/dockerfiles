@@ -4,7 +4,7 @@
 
 set -e
 
-CLAUDE_FLOW_VERSION="2.7.14"
+CLAUDE_FLOW_VERSION="2.7.4"
 
 # Colors for output
 RED='\033[0;31m'
