@@ -12,6 +12,12 @@ Dockerfiles rely on uppercase directives, four-space indentation for continued c
 ## Testing Guidelines
 Always rebuild the touched image (`docker build --pull -t ryanjarv/claude claude/`) to surface dependency drift. Launch the image with its intended command—`claude` and `ruv-swarm` should reach the Anthropic CLI, while `gemini` should open a Python session with `google-generativeai` importable. Watch `claude-entrypoint` logs for a successful `better-sqlite3` rebuild and run `shellcheck` locally when editing shared helper scripts.
 
+For better-sqlite3 validation, use the test suite in `claude/`:
+- Quick validation: `./claude/test-ruv-swarm.sh`
+- Comprehensive tests: `./claude/test-better-sqlite3.sh`
+- In-container tests: `./claude/test-in-container.sh`
+- See `claude/TESTING-BETTER-SQLITE3.md` for full testing documentation
+
 ## Commit & Pull Request Guidelines
 Commit subjects should stay under 50 characters, use a scope prefix when relevant (`claude: refresh NodeSource key`), and limit each commit to a single agent. Pull requests must list the affected images, the build/run commands executed, and any follow-up actions (registry pushes, doc updates). Include concise logs or screenshots when solving runtime issues so reviewers can reproduce the fix quickly.
 

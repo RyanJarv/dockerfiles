@@ -97,15 +97,24 @@ Note: The claude-flow wrapper uses the container but bypasses the entrypoint (it
 - Build all: `./build.sh`
 - Build specific: `docker buildx build -t ryanjarv/claude -f claude/Dockerfile ./claude`
 - Smoke test: `docker run --rm -it -v "$PWD:$PWD" -w "$PWD" ryanjarv/claude --help`
+- Test better-sqlite3: `./claude/test-ruv-swarm.sh` (quick) or `./claude/test-better-sqlite3.sh` (comprehensive)
 - Push: `./push.sh`
 
 If you prefer Make targets, adapt these to `make build` / `make push`.
 
+**Testing better-sqlite3 Native Bindings**
+The claude image includes test scripts to validate better-sqlite3 functionality:
+- `claude/test-ruv-swarm.sh`: Quick test that runs ruv-swarm (depends on better-sqlite3)
+- `claude/test-in-container.sh`: Comprehensive test suite (run inside container)
+- `claude/test-better-sqlite3.sh`: Full validation across all scenarios
+- See `claude/TESTING-BETTER-SQLITE3.md` for detailed testing documentation
+
 
 **Troubleshooting**
-- better-sqlite3 errors: use the containerized wrappers. The image prebuilds and the Claude entrypoint auto‑rebuilds on ABI mismatch. See `claude/TESTING-BETTER-SQLITE3.md` and `claude/quick-test.sh`.
-- Unexpected file access: confirm you’re in the correct Git repo; the wrapper logs the shared path. Avoid running from `$HOME`.
+- better-sqlite3 errors: use the containerized wrappers. The image prebuilds and the Claude entrypoint auto‑rebuilds on ABI mismatch. See `claude/TESTING-BETTER-SQLITE3.md` for comprehensive testing documentation. Quick test: `./claude/test-ruv-swarm.sh` or `source sh_functions && ruv-swarm --help`.
+- Unexpected file access: confirm you're in the correct Git repo; the wrapper logs the shared path. Avoid running from `$HOME`.
 - Permissions prompts from Claude CLI: the `claude` wrapper passes `--dangerously-skip-permissions` to reduce friction.
+- Build failures: if you see errors about `/root/.npm/_npx` not found, ensure you have the latest Dockerfile which wraps both npx and find commands in error-tolerant subshells.
 
 
 **Related Images**
