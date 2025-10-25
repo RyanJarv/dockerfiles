@@ -95,6 +95,17 @@ This should be automatically fixed by the entrypoint script. If not:
    PYTHON=/usr/local/bin/python3.11 npm rebuild better-sqlite3
    ```
 
+### MCP: "spawn ruv-swarm ENOENT"
+If Claude Code's MCP server can't find ruv-swarm:
+
+1. Verify ruv-swarm is in PATH:
+   ```bash
+   docker run --rm ryanjarv/claude bash -c 'which ruv-swarm'
+   ```
+   Should output: `/usr/local/bin/ruv-swarm` or `/usr/bin/ruv-swarm`
+
+2. If missing, rebuild the image with the latest Dockerfile which includes the symlink step
+
 ### Tests Still Failing
 See the detailed debugging section in [TESTING-BETTER-SQLITE3.md](TESTING-BETTER-SQLITE3.md#debugging-tips).
 
@@ -112,6 +123,7 @@ See the detailed debugging section in [TESTING-BETTER-SQLITE3.md](TESTING-BETTER
 ## Recent Changes
 
 ### 2025 Updates
+- Fixed ruv-swarm MCP server: Added symlink to /usr/local/bin so MCP can spawn ruv-swarm
 - Fixed Dockerfile build error: wrapped npx and find commands in error-tolerant subshells
 - Enhanced entrypoint script: added PYTHON env var, broader error detection, verbose output
 - Created comprehensive test suite for better-sqlite3 validation

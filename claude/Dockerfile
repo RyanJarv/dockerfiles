@@ -20,6 +20,9 @@ RUN npm uninstall -g ruv-swarm idealTree && \
     npm install -g 'https://gitpkg.vercel.app/RyanJarv/ruv-FANN/ruv-swarm/npm?main' && \
     PYTHON=/usr/local/bin/python3.11 npm rebuild better-sqlite3 && npm rebuild ruv-swarm
 
+# Create symlink for ruv-swarm binary
+RUN bash -lc 'export NVM_DIR="/root/.nvm" && . "$NVM_DIR/nvm.sh" && nvm use default >/dev/null && ln -sf "$NVM_DIR"/versions/node/$(nvm version default)/bin/ruv-swarm /usr/local/bin/ruv-swarm || ln -sf "$NVM_DIR"/versions/node/$(nvm version default)/bin/ruv-swarm /usr/bin/ruv-swarm'
+
 # Pre-install better-sqlite3 in npx cache to ensure native bindings are built
 RUN (npx --yes better-sqlite3@latest --help 2>/dev/null || true) && \
     (find /root/.npm/_npx -name 'better-sqlite3' -type d -exec sh -c 'cd {} && PYTHON=/usr/local/bin/python3.11 npm rebuild better-sqlite3 2>/dev/null || true' \; || true)
