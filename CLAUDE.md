@@ -49,6 +49,12 @@
 
 This project uses SPARC (Specification, Pseudocode, Architecture, Refinement, Completion) methodology with Claude-Flow orchestration for systematic Test-Driven Development.
 
+### Runtime Baseline
+- `claude-flow` is installed globally at version `2.7.14` inside the `ryanjarv/claude` image.
+- The container pins Node.js `22.x` to keep native modules such as `better-sqlite3` ABI-compatible.
+- All hooks and scripts call the global `claude-flow` binary directly (no `npx`) to avoid cache corruption in Docker.
+- Rebuild the image with `docker build --pull -t ryanjarv/claude claude/` after upgrading Claude Flow so the global install and native bindings refresh.
+
 ## SPARC Commands
 
 ### Core Commands
@@ -165,12 +171,16 @@ source scripts/aliases.sh
 ```bash
 # Add MCP servers (Claude Flow required, others optional)
 claude mcp add claude-flow claude-flow mcp start
-claude mcp add ruv-swarm npx ruv-swarm mcp start  # Optional: Enhanced coordination
+claude mcp add ruv-swarm ruv-swarm mcp start              # Optional: Enhanced coordination
 claude mcp add flow-nexus npx flow-nexus@latest mcp start  # Optional: Cloud features
 
 # Manually create sparc-modes.json
 ./scripts/claude-flow-init.sh --create-sparc
 ```
+
+Note:
+- The claude-flow server is installed globally in the `ryanjarv/claude` image and invoked directly.
+- If you configure MCP servers on your host (Claude Desktop), ensure `ruv-swarm` is installed globally (`npm i -g ruv-swarm`) or change the command to `npx ruv-swarm mcp start`.
 
 ### Troubleshooting
 

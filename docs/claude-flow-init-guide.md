@@ -9,6 +9,7 @@ The `claude-flow-init.sh` script is a comprehensive wrapper around `claude-flow 
 1. **Missing sparc-modes.json**: Upstream `claude-flow init` doesn't create `.claude/sparc-modes.json`
 2. **MCP Version Mismatch**: MCP server configurations use incorrect package versions
 3. **Connection Failures**: Global `claude-flow` MCP server setup avoids transient npx install issues
+4. **Native Module ABI Mismatch**: Docker image pins Node.js `22.x` so bundled `better-sqlite3` bindings load cleanly
 
 ## Installation
 
@@ -71,6 +72,12 @@ The script is located at: `scripts/claude-flow-init.sh`
 - Provides troubleshooting guidance
 
 ## Technical Details
+
+### Runtime Environment
+
+- The `ryanjarv/claude` Docker image installs Node.js `22.x` via `nvm` and sets it as the default runtime to keep native addons ABI-compatible.
+- `claude-flow@2.7.14` is installed globally during the image build, and its `better-sqlite3` dependency is rebuilt with Python 3.11 so the CLI works even without a writable NPX cache.
+- Project hooks and helper scripts execute the global `claude-flow` binary directly; falling back to `npx` should only happen if you intentionally override the installed version.
 
 ### Version Detection
 
@@ -262,8 +269,8 @@ claude-flow sparc run <mode>       # Run SPARC mode
 claude-flow mcp start              # Start MCP server
 
 # Verification
-ruv-swarm mcp start                # Test ruv-swarm
-npx flow-nexus mcp start           # Test flow-nexus
+ruv-swarm mcp start                # Test ruv-swarm (requires global install)
+npx flow-nexus@latest mcp start    # Test flow-nexus via npx
 ```
 
 ## Support

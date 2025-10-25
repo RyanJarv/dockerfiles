@@ -27,12 +27,17 @@ Enhanced initialization wrapper for claude-flow that fixes upstream issues and D
 ```
 
 **Features:**
-- ✅ Runs `claude-flow init`
+- ✅ Runs `claude-flow init` (uses global binary, falls back to pinned v2.7.14)
 - ✅ Creates `.claude/sparc-modes.json` from template
-- ✅ Fixes MCP server version mismatches
-- ✅ Auto-detects installed package versions
+- ✅ Fixes MCP server configurations for global binary usage
+- ✅ Configures claude-flow, ruv-swarm, and flow-nexus MCP servers
 - ✅ Verifies server connections
 - ✅ Creates backups before modifications
+
+**Docker Environment:**
+- Uses globally installed `claude-flow@2.7.4` in ryanjarv/claude image
+- Node.js v25.0.0 for native module (better-sqlite3) ABI compatibility
+- Avoids npx cache issues by using global binary directly
 
 **Documentation:** [../docs/claude-flow-init-guide.md](../docs/claude-flow-init-guide.md)
 
@@ -60,12 +65,14 @@ claude-flow-status  # Full status check
 - `cfi-verify` - Verify connections
 - `cfi-fix` - Fix MCP config
 - `cfi-sparc` - Create SPARC modes
-- `sparc` - SPARC commands
+- `sparc` - SPARC commands (uses global `claude-flow` binary)
 - `sparc-modes` - List SPARC modes
 - `sparc-tdd` - Run TDD workflow
 - `mcp-list` - List MCP servers
 - `mcp-restart` - Restart MCP servers
 - `claude-flow-status` - Full status check function
+
+**Note:** The `sparc` aliases use the global `claude-flow` binary installed in the Docker image, not `npx`. This avoids cache corruption and ensures native modules work correctly.
 
 ## Templates
 
@@ -114,17 +121,27 @@ chmod +x scripts/aliases.sh
 ### Missing Dependencies
 
 Ensure these are installed:
-- Node.js v18+
+- Node.js v22.x (pinned in Docker image for native module compatibility)
 - npm
 - Claude desktop application
 - jq (optional, for JSON processing)
+- claude-flow@2.7.14 (globally installed in Docker image)
 
 ```bash
 # Check versions
-node --version
+node --version  # Should show v22.x.x
 npm --version
 which claude
+which claude-flow  # Should show global binary path
+claude-flow --version  # Should show 2.7.14
 ```
+
+### MCP Binaries on the Host (Claude Desktop)
+
+If you add MCP servers directly to Claude Desktop on your host, the configured commands must exist on your host PATH (they do not run inside our Docker container):
+- Install globally: `npm i -g claude-flow@2.7.14 ruv-swarm`.
+- Or keep `ruv-swarm` via npx in your Claude Desktop config: `npx ruv-swarm mcp start`.
+  - Our init script writes `ruv-swarm mcp start`. If you don’t have a global install, change it to the npx form.
 
 ## File Structure
 
