@@ -10,10 +10,10 @@ alias cfi-verify='./scripts/claude-flow-init.sh --verify'
 alias cfi-fix='./scripts/claude-flow-init.sh --fix-mcp'
 alias cfi-sparc='./scripts/claude-flow-init.sh --create-sparc'
 
-# Claude Flow SPARC
-alias sparc='./claude-flow sparc'
-alias sparc-modes='./claude-flow sparc modes'
-alias sparc-tdd='./claude-flow sparc tdd'
+# Claude Flow SPARC (use global binary)
+alias sparc='claude-flow sparc'
+alias sparc-modes='claude-flow sparc modes'
+alias sparc-tdd='claude-flow sparc tdd'
 
 # MCP Management
 alias mcp-list='claude mcp list'
@@ -29,7 +29,7 @@ claude-flow-status() {
     echo "📝 SPARC Modes:"
     if [ -f ".claude/sparc-modes.json" ]; then
         echo "✅ sparc-modes.json exists"
-        ./claude-flow sparc modes 2>/dev/null || echo "⚠️  SPARC command may need verification"
+        claude-flow sparc modes 2>/dev/null || echo "⚠️  SPARC command may need verification"
     else
         echo "❌ sparc-modes.json missing - run: claude-flow-init --create-sparc"
     fi
