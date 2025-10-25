@@ -9,7 +9,7 @@ RUN --mount=type=cache,target=/var/cache/apt,id=claude-apt-cache,sharing=locked 
 RUN bash -lc 'export NVM_DIR="/root/.nvm" && . "$NVM_DIR/nvm.sh" && nvm install 22 && nvm alias default 22 && ln -sf "$NVM_DIR"/versions/node/$(nvm version default)/bin/* /usr/local/bin/'
 
 RUN npm install -g '@anthropic-ai/claude-code'
-RUN npm install -g 'claude-flow@2.7.14'
+RUN npm install -g 'claude-flow@2.7.4'
 RUN CLAUDE_FLOW_DIR="$(npm root -g)/claude-flow" && \
     cd "$CLAUDE_FLOW_DIR" && \
     PYTHON=/usr/local/bin/python3.11 npm rebuild better-sqlite3

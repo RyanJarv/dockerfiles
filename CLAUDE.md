@@ -50,10 +50,13 @@
 This project uses SPARC (Specification, Pseudocode, Architecture, Refinement, Completion) methodology with Claude-Flow orchestration for systematic Test-Driven Development.
 
 ### Runtime Baseline
-- `claude-flow` is installed globally at version `2.7.14` inside the `ryanjarv/claude` image.
-- The container pins Node.js `22.x` to keep native modules such as `better-sqlite3` ABI-compatible.
-- All hooks and scripts call the global `claude-flow` binary directly (no `npx`) to avoid cache corruption in Docker.
-- Rebuild the image with `docker build --pull -t ryanjarv/claude claude/` after upgrading Claude Flow so the global install and native bindings refresh.
+- `claude-flow@2.7.4` and `ruv-swarm@1.0.18` are installed globally inside the `ryanjarv/claude` image.
+- The container uses Node.js `v25.0.0` to keep native modules such as `better-sqlite3` ABI-compatible.
+- All hooks and scripts call the global binaries directly (no `npx`) to avoid cache corruption in Docker.
+- Global binary paths:
+  - `/usr/local/bin/claude-flow`
+  - `/usr/local/bin/ruv-swarm`
+- Rebuild the image with `docker build --pull -t ryanjarv/claude claude/` after upgrading packages so the global installs and native bindings refresh.
 
 ## SPARC Commands
 

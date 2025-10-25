@@ -33,8 +33,12 @@ log_error() {
 # Function to get the actual installed version of a package
 get_installed_version() {
     local package=$1
+    # Check for global binary first (claude-flow and ruv-swarm)
     if [ "$package" = "claude-flow" ] && command -v claude-flow >/dev/null 2>&1; then
         claude-flow --version 2>/dev/null && return
+    fi
+    if [ "$package" = "ruv-swarm" ] && command -v ruv-swarm >/dev/null 2>&1; then
+        ruv-swarm --version 2>/dev/null && return
     fi
     local version=$(npm list -g "$package" 2>/dev/null | grep "$package@" | sed 's/.*@//' | head -1)
     if [ -z "$version" ]; then

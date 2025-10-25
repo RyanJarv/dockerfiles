@@ -35,9 +35,11 @@ Enhanced initialization wrapper for claude-flow that fixes upstream issues and D
 - ✅ Creates backups before modifications
 
 **Docker Environment:**
-- Uses globally installed `claude-flow@2.7.4` in ryanjarv/claude image
+- Uses globally installed packages in ryanjarv/claude image:
+  - `claude-flow@2.7.4` at `/usr/local/bin/claude-flow`
+  - `ruv-swarm@1.0.18` at `/usr/local/bin/ruv-swarm`
 - Node.js v25.0.0 for native module (better-sqlite3) ABI compatibility
-- Avoids npx cache issues by using global binary directly
+- Avoids npx cache issues by using global binaries directly
 
 **Documentation:** [../docs/claude-flow-init-guide.md](../docs/claude-flow-init-guide.md)
 
@@ -126,6 +128,7 @@ Ensure these are installed:
 - Claude desktop application
 - jq (optional, for JSON processing)
 - claude-flow@2.7.4 (globally installed in Docker image)
+- ruv-swarm@1.0.18 (globally installed in Docker image)
 
 ```bash
 # Check versions
@@ -134,14 +137,17 @@ npm --version
 which claude
 which claude-flow  # Should show /usr/local/bin/claude-flow
 claude-flow --version  # Should show v2.7.4
+which ruv-swarm  # Should show /usr/local/bin/ruv-swarm
+ruv-swarm --version  # Should show 1.0.18
 ```
 
 ### MCP Binaries on the Host (Claude Desktop)
 
 If you add MCP servers directly to Claude Desktop on your host, the configured commands must exist on your host PATH (they do not run inside our Docker container):
-- Install globally: `npm i -g claude-flow@2.7.4 ruv-swarm`.
-- Or keep `ruv-swarm` via npx in your Claude Desktop config: `npx ruv-swarm mcp start`.
-  - Our init script writes `ruv-swarm mcp start`. If you don't have a global install, change it to the npx form.
+- Install globally: `npm i -g claude-flow@2.7.4 ruv-swarm@1.0.18`.
+- Or use npx in your Claude Desktop config: `npx ruv-swarm@1.0.18 mcp start`.
+  - Our init script configures `ruv-swarm mcp start` (expects global install).
+  - If you don't have a global install, change it to the npx form.
 
 ## File Structure
 
