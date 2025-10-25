@@ -8,7 +8,7 @@ The `claude-flow-init.sh` script is a comprehensive wrapper around `claude-flow 
 
 1. **Missing sparc-modes.json**: Upstream `claude-flow init` doesn't create `.claude/sparc-modes.json`
 2. **MCP Version Mismatch**: MCP server configurations use incorrect package versions
-3. **Connection Failures**: `claude-flow@alpha` MCP server fails to connect due to version issues
+3. **Connection Failures**: Global `claude-flow` MCP server setup avoids transient npx install issues
 
 ## Installation
 
@@ -48,7 +48,7 @@ The script is located at: `scripts/claude-flow-init.sh`
 ### What It Does
 
 #### 1. Run Original Init
-- Executes `npx claude-flow@alpha init`
+- Executes `claude-flow init` (falls back to pinned npx install if missing)
 - Sets up basic `.claude/` directory structure
 
 #### 2. Create sparc-modes.json
@@ -60,7 +60,7 @@ The script is located at: `scripts/claude-flow-init.sh`
 - Detects installed package versions
 - Updates `~/.config/claude/claude_desktop_config.json`
 - Fixes version mismatches for:
-  - `claude-flow@alpha`
+  - `claude-flow@2.7.14`
   - `ruv-swarm`
   - `flow-nexus@latest`
 - Creates backup before modifications
@@ -81,10 +81,10 @@ The script automatically detects installed package versions:
 npm list -g "package-name"
 
 # Falls back to npx version command
-npx package-name --version
+npx --yes package-name --version
 
 # Uses sensible defaults if detection fails
-claude-flow: @alpha
+claude-flow: @2.7.14
 ruv-swarm: @latest
 flow-nexus: @latest
 ```
@@ -97,12 +97,12 @@ Updates `claude_desktop_config.json` structure:
 {
   "mcpServers": {
     "claude-flow": {
-      "command": "npx",
-      "args": ["claude-flow@2.x.x", "mcp", "start"]
+      "command": "claude-flow",
+      "args": ["mcp", "start"]
     },
     "ruv-swarm": {
-      "command": "npx",
-      "args": ["ruv-swarm@1.x.x", "mcp", "start"]
+      "command": "ruv-swarm",
+      "args": ["mcp", "start"]
     },
     "flow-nexus": {
       "command": "npx",
@@ -156,13 +156,13 @@ claude mcp list
 ls -la .claude/sparc-modes.json
 
 # Test SPARC modes
-npx claude-flow sparc modes
+claude-flow sparc modes
 ```
 
 ### Version Detection Fails
 
 The script uses safe defaults:
-- `claude-flow@alpha` - Latest alpha version
+- `claude-flow@2.7.14` - Pinned stable version
 - `ruv-swarm@latest` - Latest stable
 - `flow-nexus@latest` - Latest stable
 
@@ -257,12 +257,12 @@ claude mcp restart                 # Restart MCP servers
 claude mcp add <name> <command>    # Add new server
 
 # Claude Flow commands
-npx claude-flow sparc modes        # List SPARC modes
-npx claude-flow sparc run <mode>   # Run SPARC mode
-npx claude-flow mcp start          # Start MCP server
+claude-flow sparc modes            # List SPARC modes
+claude-flow sparc run <mode>       # Run SPARC mode
+claude-flow mcp start              # Start MCP server
 
 # Verification
-npx ruv-swarm mcp start            # Test ruv-swarm
+ruv-swarm mcp start                # Test ruv-swarm
 npx flow-nexus mcp start           # Test flow-nexus
 ```
 

@@ -4,6 +4,8 @@
 
 set -e
 
+CLAUDE_FLOW_VERSION="2.7.14"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -31,11 +33,22 @@ log_error() {
 # Function to get the actual installed version of a package
 get_installed_version() {
     local package=$1
+    if [ "$package" = "claude-flow" ] && command -v claude-flow >/dev/null 2>&1; then
+        claude-flow --version 2>/dev/null && return
+    fi
     local version=$(npm list -g "$package" 2>/dev/null | grep "$package@" | sed 's/.*@//' | head -1)
     if [ -z "$version" ]; then
-        version=$(npx "$package" --version 2>/dev/null || echo "")
+        version=$(npx --yes "$package" --version 2>/dev/null || echo "")
     fi
     echo "$version"
+}
+
+run_claude_flow() {
+    if command -v claude-flow >/dev/null 2>&1; then
+        claude-flow "$@"
+    else
+        npx --yes "claude-flow@${CLAUDE_FLOW_VERSION}" "$@"
+    fi
 }
 
 # Function to fix MCP server configuration
@@ -60,10 +73,10 @@ fix_mcp_config() {
     local ruv_swarm_version=$(get_installed_version "ruv-swarm")
     local flow_nexus_version=$(get_installed_version "flow-nexus")
 
-    # Default to @alpha if version detection fails
+    # Default to pinned claude-flow version if detection fails
     if [ -z "$claude_flow_version" ]; then
-        claude_flow_version="@alpha"
-        log_warning "Could not detect claude-flow version, using @alpha"
+        claude_flow_version="@${CLAUDE_FLOW_VERSION}"
+        log_warning "Could not detect claude-flow version, using ${claude_flow_version}"
     else
         claude_flow_version="@$claude_flow_version"
         log_success "Detected claude-flow version: $claude_flow_version"
@@ -94,10 +107,10 @@ fix_mcp_config() {
         jq --arg cf_ver "$claude_flow_version" \
            --arg rs_ver "$ruv_swarm_version" \
            --arg fn_ver "$flow_nexus_version" \
-           '.mcpServers."claude-flow".command = "npx" |
-            .mcpServers."claude-flow".args = ["claude-flow" + $cf_ver, "mcp", "start"] |
-            .mcpServers."ruv-swarm".command = "npx" |
-            .mcpServers."ruv-swarm".args = ["ruv-swarm" + $rs_ver, "mcp", "start"] |
+           '.mcpServers."claude-flow".command = "claude-flow" |
+            .mcpServers."claude-flow".args = ["mcp", "start"] |
+            .mcpServers."ruv-swarm".command = "ruv-swarm" |
+            .mcpServers."ruv-swarm".args = ["mcp", "start"] |
             .mcpServers."flow-nexus".command = "npx" |
             .mcpServers."flow-nexus".args = ["flow-nexus" + $fn_ver, "mcp", "start"]' \
            "$mcp_config_file" > "$tmp_file" && mv "$tmp_file" "$mcp_config_file"
@@ -128,7 +141,7 @@ create_sparc_modes() {
         log_info "Attempting to download from claude-flow repository..."
 
         # Fallback: try to get from installed package or create minimal version
-        if npx claude-flow@alpha sparc modes &>/dev/null; then
+        if run_claude_flow sparc modes &>/dev/null; then
             log_success "SPARC modes available through claude-flow"
         else
             log_warning "Creating minimal sparc-modes.json"
@@ -183,7 +196,7 @@ main() {
 
     # Step 1: Run original claude-flow init
     log_info "Running claude-flow init..."
-    if npx claude-flow@alpha init; then
+    if run_claude_flow init; then
         log_success "claude-flow init completed"
     else
         log_warning "claude-flow init had warnings (continuing...)"
@@ -209,7 +222,7 @@ main() {
     echo "  1. Restart Claude desktop application"
     echo "  2. Run: $0 --verify"
     echo "  3. Test with: claude mcp list"
-    echo "  4. Test SPARC: npx claude-flow sparc modes"
+    echo "  4. Test SPARC: claude-flow sparc modes"
 }
 
 # Handle command-line arguments

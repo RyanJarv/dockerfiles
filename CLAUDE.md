@@ -52,15 +52,15 @@ This project uses SPARC (Specification, Pseudocode, Architecture, Refinement, Co
 ## SPARC Commands
 
 ### Core Commands
-- `npx claude-flow sparc modes` - List available modes
-- `npx claude-flow sparc run <mode> "<task>"` - Execute specific mode
-- `npx claude-flow sparc tdd "<feature>"` - Run complete TDD workflow
-- `npx claude-flow sparc info <mode>` - Get mode details
+- `claude-flow sparc modes` - List available modes
+- `claude-flow sparc run <mode> "<task>"` - Execute specific mode
+- `claude-flow sparc tdd "<feature>"` - Run complete TDD workflow
+- `claude-flow sparc info <mode>` - Get mode details
 
 ### Batchtools Commands
-- `npx claude-flow sparc batch <modes> "<task>"` - Parallel execution
-- `npx claude-flow sparc pipeline "<task>"` - Full pipeline processing
-- `npx claude-flow sparc concurrent <mode> "<tasks-file>"` - Multi-task processing
+- `claude-flow sparc batch <modes> "<task>"` - Parallel execution
+- `claude-flow sparc pipeline "<task>"` - Full pipeline processing
+- `claude-flow sparc concurrent <mode> "<tasks-file>"` - Multi-task processing
 
 ### Build Commands
 - `npm run build` - Build project
@@ -164,7 +164,7 @@ source scripts/aliases.sh
 
 ```bash
 # Add MCP servers (Claude Flow required, others optional)
-claude mcp add claude-flow npx claude-flow@alpha mcp start
+claude mcp add claude-flow claude-flow mcp start
 claude mcp add ruv-swarm npx ruv-swarm mcp start  # Optional: Enhanced coordination
 claude mcp add flow-nexus npx flow-nexus@latest mcp start  # Optional: Cloud features
 
@@ -182,7 +182,7 @@ claude mcp list
 ./scripts/claude-flow-init.sh --fix-mcp
 
 # Verify SPARC modes
-npx claude-flow sparc modes
+claude-flow sparc modes
 
 # Full status check
 source scripts/aliases.sh && claude-flow-status
@@ -260,20 +260,20 @@ Flow-Nexus extends MCP capabilities with 70+ cloud-based orchestration tools:
 
 **1️⃣ BEFORE Work:**
 ```bash
-npx claude-flow@alpha hooks pre-task --description "[task]"
-npx claude-flow@alpha hooks session-restore --session-id "swarm-[id]"
+claude-flow hooks pre-task --description "[task]"
+claude-flow hooks session-restore --session-id "swarm-[id]"
 ```
 
 **2️⃣ DURING Work:**
 ```bash
-npx claude-flow@alpha hooks post-edit --file "[file]" --memory-key "swarm/[agent]/[step]"
-npx claude-flow@alpha hooks notify --message "[what was done]"
+claude-flow hooks post-edit --file "[file]" --memory-key "swarm/[agent]/[step]"
+claude-flow hooks notify --message "[what was done]"
 ```
 
 **3️⃣ AFTER Work:**
 ```bash
-npx claude-flow@alpha hooks post-task --task-id "[task]"
-npx claude-flow@alpha hooks session-end --export-metrics true
+claude-flow hooks post-task --task-id "[task]"
+claude-flow hooks session-end --export-metrics true
 ```
 
 ## 🎯 Concurrent Execution Examples
